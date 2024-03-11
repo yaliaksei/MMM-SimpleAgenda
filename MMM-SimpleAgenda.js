@@ -19,6 +19,8 @@ Module.register("MMM-SimpleAgenda", {
 		//retry delay
 		retryDelay: 2500,
 		calendars: [],
+		showTomorrowAgenda: true,
+		tomorrowAgendaStartsFrom: 18,
 	  },
 
 	start: function () {
@@ -32,7 +34,7 @@ Module.register("MMM-SimpleAgenda", {
 	},
 
     getHeader: function() {
-		return "Agenda today"
+		return "Agenda"
 	},
 
     notificationReceived: function(notification, payload, sender) {
@@ -61,12 +63,25 @@ Module.register("MMM-SimpleAgenda", {
         
         events = this.events;
         today = new Date();
+		var hour = today.getHours();
+
+		// get tomorrow date
+		var tomorrow = new Date();
+		tomorrow.setDate(today.getDate() + 1);
+
+		if (hour >= this.config.tomorrowAgendaStartsFrom
+			&& this.config.showTomorrowAgenda
+		  ) {
+			eventDate = tomorrow
+		} else {
+			eventDate = today
+		}
 
         for (var e in events) {
 			var event = events[e];
-            if(today.getDate() == event.startDate.getDate() 
-                && today.getFullYear() == event.startDate.getFullYear() 
-                && today.getMonth() == event.startDate.getMonth()) {
+            if(eventDate.getDate() == event.startDate.getDate() 
+                && eventDate.getFullYear() == event.startDate.getFullYear() 
+                && eventDate.getMonth() == event.startDate.getMonth()) {
                 
                 eventWrapper = document.createElement("tr");
                 titleWrapper = document.createElement("td");

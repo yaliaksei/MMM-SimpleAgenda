@@ -26,9 +26,14 @@ Add following module configuration in config.js
 	module: "MMM-SimpleAgenda",
 	position: "top_left", // any position of your choice
 	config: {
-        // specify calendars to get today's events from
-        // calendar names should be defined in the default calendar module
+    	// specify calendars to get today's events from
+    	// calendar names should be defined in the default calendar module
 		calendars: ["Family"],
+		// whether module should display tomorrow events
+		showTomorrowAgenda: true,
+		// if previous value is true, when module should start display them
+		// use 24 hour format
+		tomorrowAgendaStartsFrom: 18,
 	}
 },
 ...
