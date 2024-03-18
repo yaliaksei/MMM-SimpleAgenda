@@ -33,10 +33,6 @@ Module.register("MMM-SimpleAgenda", {
 		}, this.config.updateInterval);
 	},
 
-    getHeader: function() {
-		return "Agenda"
-	},
-
     notificationReceived: function(notification, payload, sender) {
 	    if (notification === "CALENDAR_EVENTS") {
 			this.events = payload.map(e => {
@@ -73,9 +69,15 @@ Module.register("MMM-SimpleAgenda", {
 			&& this.config.showTomorrowAgenda
 		  ) {
 			eventDate = tomorrow
+			headerWrapper = document.createElement("tr");
+			headerWrapper.innerHTML = "Tomorrow"
 		} else {
 			eventDate = today
+			headerWrapper = document.createElement("tr");
+			headerWrapper.innerHTML = "Today"
 		}
+
+		wrapper.appendChild(headerWrapper);
 
         for (var e in events) {
 			var event = events[e];
@@ -86,6 +88,9 @@ Module.register("MMM-SimpleAgenda", {
                 eventWrapper = document.createElement("tr");
                 titleWrapper = document.createElement("td");
                 titleWrapper.innerHTML = event.title;
+				timeWrapper = document.createElement("td");
+				timeWrapper.innerHTML = event.startDate.getHours() + ":" + event.startDate.getMinutes();
+				eventWrapper.appendChild(timeWrapper);
                 eventWrapper.appendChild(titleWrapper);
                 wrapper.appendChild(eventWrapper);
             }
