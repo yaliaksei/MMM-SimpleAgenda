@@ -88,9 +88,11 @@ Module.register("MMM-SimpleAgenda", {
                 eventWrapper = document.createElement("tr");
                 titleWrapper = document.createElement("td");
                 titleWrapper.innerHTML = event.title;
-				timeWrapper = document.createElement("td");
-				timeWrapper.innerHTML = event.startDate.getHours() + ":" + event.startDate.getMinutes();
-				eventWrapper.appendChild(timeWrapper);
+		timeWrapper = document.createElement("td");
+		// minutes correction to display 2 digits always
+		minutes = (event.startDate.getMinutes() < 10 ? "0" : "") + event.startDate.getMinutes();
+		timeWrapper.innerHTML = event.startDate.getHours() + ":" + minutes;
+		eventWrapper.appendChild(timeWrapper);
                 eventWrapper.appendChild(titleWrapper);
                 wrapper.appendChild(eventWrapper);
             }
